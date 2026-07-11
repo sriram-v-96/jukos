@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JUKOS Universal Knowledge Superset — Design Specification v1.0</title>
+<style>
+  :root{--bg:#0f1115;--panel:#171a21;--panel2:#1e222b;--ink:#e6e9ef;--muted:#9aa3b2;--line:#2a2f3a;--accent:#5b9dff;--green:#3fb950;--amber:#d29922;--red:#f85149;--purple:#a371f7;--cyan:#39c5cf;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;padding:26px 16px 90px;}
+  .wrap{max-width:1000px;margin:0 auto;}
+  h1{font-size:23px;margin:0 0 3px;}
+  .sub{color:var(--muted);font-size:12.5px;margin-bottom:4px;}
+  .status{display:inline-block;background:rgba(210,153,34,.15);color:var(--amber);border-radius:5px;padding:2px 9px;font-size:11px;font-weight:700;margin:6px 0 12px;}
+  h2{font-size:16px;margin:28px 0 8px;border-bottom:1px solid var(--line);padding-bottom:7px;color:var(--accent);}
+  h3{font-size:13.5px;margin:18px 0 6px;color:var(--cyan);}
+  p{margin:9px 0;font-size:13.5px;}
+  b{color:#fff;}
+  .core{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--purple);border-radius:9px;padding:15px 17px;margin:14px 0;font-size:14px;}
+  .core b{color:var(--purple);}
+  ul,ol{margin:8px 0;padding-left:22px;font-size:13px;}
+  li{margin:6px 0;}
+  li b{color:var(--ink);}
+  .note{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:8px;padding:11px 14px;font-size:12.5px;color:var(--muted);margin:14px 0;line-height:1.7;}
+  .note.green{border-left-color:var(--green);}.note.blue{border-left-color:var(--accent);}.note.red{border-left-color:var(--red);}
+  .note b{color:var(--ink);}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:12.5px;}
+  th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.03em;padding:8px 10px;border-bottom:1px solid var(--line);}
+  td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  code{background:var(--panel2);padding:1px 6px;border-radius:4px;font-size:12px;color:var(--accent);}
+  .diagram{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;margin:14px 0;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.9;color:var(--muted);overflow-x:auto;}
+  .diagram .u{color:var(--purple);font-weight:700;}
+  .diagram .b{color:var(--cyan);}
+  .diagram .c{color:var(--green);}
+  .pill{display:inline-block;padding:1px 7px;border-radius:5px;font-size:10.5px;font-weight:700;}
+  .exists{background:rgba(63,185,80,.15);color:var(--green);}
+  .new{background:rgba(210,153,34,.15);color:var(--amber);}
+  footer{color:#6e7681;font-size:10.5px;margin-top:28px;text-align:center;line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>JUKOS Universal Knowledge Superset</h1>
+  <div class="sub">Design Specification v1.0 · the taxonomy foundation of JUKOS · authored for implementation on the existing J0/J1 machinery</div>
+  <div class="sub">Venkat / JSAI-JeevesAI (proprietary) · 2026-07-08 · target for CC reconciliation + build</div>
+  <div class="status">STATUS: DESIGN DECISION — to be reconciled against the corpus, then implemented before J2</div>
+
+  <div class="core">
+    <b>The principle.</b> JUKOS is an <b>Operating System, not an Application.</b> Its taxonomy is therefore a <b>Universal Knowledge Superset</b> — a single, comprehensive, standard-grounded structure into which <em>all</em> content is authored <em>top-down</em>, so that compliance with global standards is <b>structural (by construction)</b> rather than verified after the fact, and the downstream AI agent layer maps into a <b>known, born-structured</b> knowledge space rather than reconstructing structure at inference time.
+  </div>
+
+  <h2>1 · The four defining properties</h2>
+  <p>The superset is defined by four properties, each of which was a deliberate design conclusion. All four hold simultaneously; none is optional.</p>
+  <ol>
+    <li><b>Superset, not monolith.</b> It is the <em>union</em> of all relevant global domain-standards, not any single standard. There is no one global standard spanning all domains (medical has SNOMED CT / ICD; K-12 physics, JEE, and general knowledge have their own frameworks and none is universal) — so the superset <em>comprehends all of them</em>. The multiplicity of standards is the reason it is a superset; a single standard would be a monolithic block, which this explicitly is not.</li>
+    <li><b>Grounded, not invented.</b> Each domain branch is grounded in that domain's real, recognised global standard(s) — JUKOS does not reinvent SNOMED or a curriculum framework; it <em>incorporates</em> them as branches. What JUKOS authors is the <em>connective upper structure</em> that unifies these heterogeneous standards into one coherent superset. JUKOS owns the unification and the connective tissue; the branches are the real standards.</li>
+    <li><b>Top-down derivation (born structured, compliant by construction).</b> Content is authored by <em>deriving downward</em> through the superset — entering via its domain's standard-grounded branch and specialising toward the concrete lesson. Because content is born inside the structured superset, it <em>cannot</em> be non-compliant or unstructured: compliance and structure are preconditions of authoring, not properties to be checked afterward. Governance is by process, not by tracking.</li>
+    <li><b>Dynamic and open (governed growth).</b> The superset expands over time — new knowledge, inventions, research findings, and progressive changes in pedagogy extend it; new domains are added as branches. It is a living structure, not a frozen reference. Crucially, it grows <em>only through the governed, versioned, provenance-sealed extension process</em> (§5), so growth preserves the compliance-by-construction guarantee rather than eroding it.</li>
+  </ol>
+
+  <h2>2 · Architecture</h2>
+  <div class="diagram">
+                    <span class="u">╔═══════════════════════════════════════════╗</span>
+                    <span class="u">║   JUKOS CONNECTIVE UPPER STRUCTURE (UKG)  ║</span>  ← JUKOS-owned IP
+                    <span class="u">║   domain-neutral unifying structure       ║</span>     (the unification)
+                    <span class="u">╚═══════════════════════════════════════════╝</span>
+                         │              │              │
+          ┌──────────────┘              │              └──────────────┐
+          ▼                             ▼                             ▼
+   <span class="b">╔═══════════════╗           ╔═══════════════╗           ╔═══════════════╗</span>
+   <span class="b">║ MEDICAL branch║           ║ PHYSICS branch║           ║  … branch     ║</span>  ← grounded in
+   <span class="b">║ SNOMED/ICD/   ║           ║ curriculum    ║           ║  domain global║</span>     real standards
+   <span class="b">║ FMA/UMLS…     ║           ║ frameworks    ║           ║  standards    ║</span>
+   <span class="b">╚═══════════════╝           ╚═══════════════╝           ╚═══════════════╝</span>
+          │                             │                             │
+          ▼ derive downward             ▼                             ▼
+   <span class="c">─────────────── EKG (educational framing) ───────────────</span>
+          │                             │                             │
+          ▼                             ▼                             ▼
+   <span class="c">─────────────── Curriculum (proprietary adopters bind here as content) ───</span>
+          │
+          ▼
+   <span class="c">Concrete lesson (JKDL) — born structured, standard-grounded, compliant</span>
+  </div>
+  <p>Three tiers, top to bottom, mapping onto JUKOS's existing <code>UKG→EKG→Curriculum</code> specialisation:</p>
+  <ul>
+    <li><b>Connective upper structure (UKG level).</b> The JUKOS-owned, domain-neutral structure that unifies the domain branches into one coherent superset. This is the novel, high-value taxonomy IP — the "glue" that makes heterogeneous global standards derivable through one common frame. Sovereign JUKOS identity (own stable IDs) with each node bound to its standard grounding.</li>
+    <li><b>Domain branches (grounded).</b> Each domain enters through its real global standard(s), incorporated as the branch's grounding — SNOMED CT / ICD / FMA / UMLS for medical; curriculum/syllabus frameworks for education; and so on. New domains attach as new branches (§5).</li>
+    <li><b>Downward specialisation (EKG → Curriculum → JKDL).</b> Educational framing, then curriculum, then the concrete lesson — each a monotonic specialisation of the tier above. Proprietary taxonomies (a specific board, a syllabus, JS LDS's <code>topic_master</code>) bind at the Curriculum tier <em>as content</em>, via the adopter pattern — never as new mechanism.</li>
+  </ul>
+
+  <h2>3 · Top-down derivation — the enforcement</h2>
+  <p>This is the property that distinguishes the superset from a mere reference catalogue, and it is the primary <b>posture change</b> from the corpus's current design (§6).</p>
+  <div class="note blue"><b>The rule:</b> a knowledge node cannot be authored except by <em>deriving downward</em> from a parent in the superset. At mint time, the derivation is <b>mandatory and immutably recorded</b> — every node carries, as a required (non-null) birth binding, the superset parent it specialises and (where the branch is standard-grounded) the external standard code it is grounded in. There is <em>no authoring path</em> that produces a node outside the superset.</p>
+  <ul>
+    <li><b>Standard-grounded where a standard exists.</b> In domains with a real global standard, downward derivation terminates in a standard-grounded node — the content is provably standard-compliant because it was minted <em>from</em> the standard-grounded branch.</li>
+    <li><b>Structured-native where no standard exists.</b> Where a domain (or a novel topic) has no external standard to ground in, the node is still authored <em>into the canonical superset structure</em> (so the agent layer still sees a known shape) — it is "structured-native": it follows the superset's structure and derivation discipline, but its grounding is a JUKOS-native superset node rather than an external standard code. The <em>structure</em> is always mandatory; the <em>external-standard parent</em> is mandatory only where a standard is available.</li>
+    <li><b>Sovereign identity, mandatory binding.</b> JUKOS owns its internal node identities (stable, licence-clean, air-gap-safe — a hard requirement for sovereign/air-gapped deployment). The external standard is bound at birth, not <em>substituted</em> for identity. This preserves both compliance-by-construction (mandatory downward derivation) and sovereignty (own IDs) — the two are not in tension when the binding is mandatory-at-mint rather than optional-map-outward.</li>
+  </ul>
+
+  <h2>4 · Why top-down — the three justifications (recorded)</h2>
+  <table>
+    <tr><th>Justification</th><th>What it buys</th></tr>
+    <tr><td><b>Compliance by construction</b></td><td>No deployment can produce non-standard content — misalignment is unrepresentable, not merely detectable. Governance is structural.</td></tr>
+    <tr><td><b>Governance by process</b></td><td>Compliance is enforced at authoring time by the derivation rule, not by after-the-fact tracking of "which generated content aligns." Eliminates a perpetual audit burden and a class of silent gaps.</td></tr>
+    <tr><td><b>Inference-layer simplicity (decisive)</b></td><td>Content is <em>born structured</em> in a canonical shape, so the AI agent layer (J2) maps into a known structure instead of reconstructing structure at inference time. Structuring cost is paid <em>once at authoring</em> rather than <em>every time at inference</em> — a compounding advantage for an inference-heavy agentic OS. This is the strongest reason the taxonomy must be locked before J2 is built.</td></tr>
+  </table>
+
+  <h2>5 · Governed growth — how the superset expands</h2>
+  <p>The superset is dynamic; it must grow without breaking compliance-by-construction. Growth is therefore itself a governed, provenance-sealed process, not an ad-hoc edit.</p>
+  <ul>
+    <li><b>Growth by immutable versioned extension.</b> New knowledge / revised research / evolving pedagogy does not <em>mutate</em> existing nodes — it <em>derives new versions</em> (or new nodes), leaving prior versions intact with their provenance. Content authored against version N stays valid and traceable as the superset advances to N+1. This is exactly JUKOS's existing immutable-versioning discipline — the dynamism and the immutability are the same mechanism.</li>
+    <li><b>New domains as new branches.</b> A new domain attaches by adding its standard-grounded (or structured-native) branch under the connective upper structure, through the same governed process.</li>
+    <li><b>Every extension is sealed and logged.</b> Each addition to the superset is EDDNA-sealed (provenance of the extension) and Audit-Log-recorded (history of the change), so growth is traceable, governed, and IP-defensible. The superset can only grow <em>through</em> the governed path — which preserves the compliance guarantee as it expands.</li>
+  </ul>
+
+  <h2>6 · Mapping onto existing JUKOS machinery — the delta</h2>
+  <p>Most of the mechanism already exists (built in J0/J1). The alignment is largely a <b>posture change</b> plus two novel structural pieces, not a rebuild.</p>
+  <table>
+    <tr><th>Capability</th><th>Status</th><th>Note</th></tr>
+    <tr><td>Immutable-versioned graph (growth mechanism)</td><td><span class="pill exists">EXISTS</span></td><td>J0.1 — governed versioned extension is this, working as intended.</td></tr>
+    <tr><td>EDDNA provenance (seal each extension)</td><td><span class="pill exists">EXISTS</span></td><td>J0.2 — seals each superset extension.</td></tr>
+    <tr><td>Audit Log (history of superset changes)</td><td><span class="pill exists">EXISTS</span></td><td>J0.4 — records governed growth.</td></tr>
+    <tr><td>UKG→EKG→Curriculum downward specialisation</td><td><span class="pill exists">EXISTS</span></td><td>J1.1 — the specialisation spine is present.</td></tr>
+    <tr><td>Terminology layer / <code>ontology_refs</code> (standard grounding)</td><td><span class="pill exists">EXISTS</span> (mechanism)</td><td>Corpus V02 §2.7; J1.1 has the simplified inline <code>canonical_ref</code>. Needs upgrade to first-class + comprehensive catalogue.</td></tr>
+    <tr><td>Proprietary-adopter pattern (bind at Curriculum as content)</td><td><span class="pill exists">EXISTS</span></td><td>Corpus MD2/P7 — already the design.</td></tr>
+    <tr><td><b>Mandatory top-down derivation at mint</b> (posture flip)</td><td><span class="pill new">NEW / FLIP</span></td><td>Corpus default is <em>optional map-outward, audit-time</em>. This spec requires <em>mandatory derive-downward, author-time</em>. Same machinery, opposite default + enforcement.</td></tr>
+    <tr><td><b>Connective upper structure</b> (unify domain standards)</td><td><span class="pill new">NEW</span></td><td>The JUKOS-owned unification frame above the branches — the novel, high-value taxonomy IP.</td></tr>
+    <tr><td><b>Comprehensive standards catalogue</b> in the terminology layer</td><td><span class="pill new">NEW</span></td><td>Corpus names only FMA/GO/CBME/NMC; SNOMED/ICD/UMLS/LOINC/MeSH etc. absent. Populate the branches.</td></tr>
+    <tr><td>Governed extension process (how growth is admitted)</td><td><span class="pill new">NEW</span></td><td>The disciplined rules by which new knowledge enters the superset through the sealed/versioned path.</td></tr>
+  </table>
+  <div class="note green"><b>The encouraging finding:</b> the corpus already built the <em>mechanism</em> (immutable-versioning, EDDNA, audit, terminology layer, downward specialisation, adopter pattern) — with a different <em>default posture</em> (sovereign + optional map-outward). This spec does not discard that; it <b>flips the posture to mandatory top-down derivation</b> and adds two structural pieces (the connective unification frame + the governed extension process) plus a data task (populate the standards catalogue). Built work (J0, J1.1–J1.3) is <em>compatible</em> and needs augmentation, not rework.</div>
+
+  <h2>7 · What is JUKOS-owned IP here</h2>
+  <p>Two pieces are genuinely novel and constitute the defensible taxonomy IP:</p>
+  <ul>
+    <li><b>The connective upper structure</b> — unifying heterogeneous global standards (which do not share a common frame) into one coherent, derivable superset is a hard, valuable problem. This unification frame is JUKOS-owned and is the heart of "OS-level universal taxonomy."</li>
+    <li><b>The governed extension process</b> — the disciplined, sealed, versioned mechanism by which the superset grows (new knowledge/research/pedagogy/domains) while preserving compliance-by-construction. A dynamic universal taxonomy that stays governed as it grows is the differentiator.</li>
+  </ul>
+
+  <h2>8 · Implementation guidance (for CC)</h2>
+  <ol>
+    <li><b>Reconcile first (read-only).</b> Confirm precisely how the corpus's UKG / EKG / terminology-layer / immutable-versioning machinery supports this spec — what already holds vs. the delta in §6 — with page cites. Report before building.</li>
+    <li><b>Upgrade the terminology layer</b> from J1.1's inline <code>canonical_ref</code> to a first-class side-store (<code>ontology_refs: [{system, code}]</code>), and populate the domain-standard catalogue comprehensively (start with the medical branch: SNOMED CT / ICD / FMA / UMLS / LOINC / MeSH).</li>
+    <li><b>Build the connective upper structure</b> — the JUKOS-owned unification frame above the branches, sovereign-identity, standard-bound.</li>
+    <li><b>Flip the derivation posture to mandatory-top-down</b> — enforce, at mint, that every node derives downward from a superset parent and (where available) is standard-grounded, immutably recorded. Add the structured-native path for standard-less domains.</li>
+    <li><b>Formalise the governed extension process</b> — the sealed/versioned rules for admitting new knowledge/branches, on the existing EDDNA + Audit + immutable-versioning machinery.</li>
+    <li><b>Preserve all standing invariants</b> — additive on the <code>jukos</code> DB, p237 separation, inert to AVF (voice/GPU/managed-count untouched), OSAAT-gated, report + runbook + commit per step.</li>
+  </ol>
+
+  <h2>9 · Open decisions (flagged, not yet resolved)</h2>
+  <div class="note">
+    <b>(a) The cross-domain root.</b> The connective upper structure is JUKOS-owned (no external standard is universal enough to be the root). Confirm this framing — the universal root is JUKOS's unification frame, with domain standards as branches beneath — vs. any alternative you intend.<br>
+    <b>(b) JS LDS relationship.</b> Under this spec, JS LDS's <code>topic_master</code> becomes an <em>optional adopter</em> that binds at the Curriculum tier as content (a scoped crosswalk), not a shared master. Confirm whether/when to build that crosswalk. Note the recorded corpus erratum: the corpus mis-expands "JS LDS" as "Jeeves Standard Learning-Delivery-Speed"; it is "JeevesAI Learning Delivery System."<br>
+    <b>(c) P-number collision.</b> JUKOS's P1–P10 (its Ten Principles) collide in label with your patents P1–P9. Record to avoid IP-documentation confusion.
+  </div>
+
+  <h2>10 · Sequencing (how this aligns without stalling)</h2>
+  <ol>
+    <li><b>This spec = the target</b> (done — this document).</li>
+    <li><b>Reconcile</b> against the corpus (CC read-only recon) — the delta in §6, precisely, with cites.</li>
+    <li><b>Revise the taxonomy layer</b> to this spec (CC build, gated) — the posture flip + the two novel pieces + the catalogue.</li>
+    <li><b>Resume forward</b> — <b>J1.4 proceeds in parallel now</b> (it is taxonomy-independent: renderer adapter + P5), then <b>J2 is built on the aligned superset</b>, reaping the inference-simplicity benefit that justified this whole design.</li>
+  </ol>
+  <div class="note red"><b>Why lock this before J2.</b> J2 (the agent/inference layer) is the primary beneficiary of born-structured content. Building J2 on the un-aligned (optional-map-outward) taxonomy and aligning afterward would force a rework of the agent layer. The taxonomy foundation is set (J0/J1.1–1.3) and the agent layer is not yet built — this is the cheapest, and nearly the last clean, moment to align. J1.4 does not depend on the taxonomy and need not wait.</div>
+
+  <footer>
+    JUKOS Universal Knowledge Superset — Design Specification v1.0<br>
+    dynamic · standard-grounded · top-down · governed-growth · sovereign-identity-with-mandatory-binding<br>
+    to be reconciled against the corpus, then implemented before J2 · built on the J0/J1 immutable-versioned + provenance-sealed machinery<br>
+    Venkat / JSAI-JeevesAI (proprietary) · UEducate licensee · 2026-07-08
+  </footer>
+</div>
+</body>
+</html>
